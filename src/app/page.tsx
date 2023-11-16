@@ -19,9 +19,13 @@ const PathfindingApp = () => {
     const [finishSeting, setFinishSeting] = useState(false)
     const [resultModalActive, setResultModalActive] = useState(false)
     const [noPathtModalActive, setNoPathModalActive] = useState(false)
+    const [modalWidth, setModalWidth] = useState(20)
 
     useEffect(() => {
         initializeGrid()
+        if (typeof window !== 'undefined') {
+            setModalWidth(window.innerWidth < 480 ? 70 : 20)
+        }
     }, [])
 
     const initializeGrid = () => {
@@ -195,7 +199,7 @@ const PathfindingApp = () => {
             <Modal
                 active={resultModalActive}
                 setActive={setResultModalActive}
-                width={20}
+                width={modalWidth}
             >
                 <div className={styles['modal-content-res']}>
                     Время выполнения: {executionTime.toFixed(2)}ms
@@ -204,7 +208,7 @@ const PathfindingApp = () => {
             <Modal
                 active={noPathtModalActive}
                 setActive={setNoPathModalActive}
-                width={20}
+                width={modalWidth}
             >
                 <div className={styles['modal-content-res']}>
                     Ошибка: невозможно достигнуть конечной точки!
