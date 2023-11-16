@@ -1,5 +1,6 @@
 'use client'
 import React, { useState, useEffect } from 'react'
+import Modal from './Components/Modal'
 import styles from './page.module.scss'
 
 type Cell = {
@@ -24,6 +25,9 @@ const PathfindingApp = () => {
     const [executionTime, setExecutionTime] = useState(0)
     const [startSeting, setStartSeting] = useState(false)
     const [finishSeting, setFinishSeting] = useState(false)
+    const [resultModalActive, setResultModalActive] = useState(false)
+    const [noPathtModalActive, setNoPathModalActive] = useState(false)
+
     useEffect(() => {
         initializeGrid()
     }, [])
@@ -70,7 +74,7 @@ const PathfindingApp = () => {
             const openSet: Cell[] = [start]
             const closedSet: Cell[] = []
 
-            start.distance = 0 
+            start.distance = 0
 
             while (openSet.length > 0) {
                 let currentNode = openSet[0]
@@ -100,6 +104,7 @@ const PathfindingApp = () => {
                     const timeElapsed = endTime - startTime
                     setExecutionTime(timeElapsed)
                     visualizePath(path)
+                    setResultModalActive(true)
                     return path
                 }
 
@@ -119,7 +124,8 @@ const PathfindingApp = () => {
                     }
                 })
             }
-           
+
+            setNoPathModalActive(true)
             const endTime = performance.now()
             const timeElapsed = endTime - startTime
             setExecutionTime(timeElapsed)
@@ -161,13 +167,17 @@ const PathfindingApp = () => {
         if (startSeting) setStartSeting(false)
     }
 
+    const clearfield = () => {
+        initializeGrid()
+        setStartNode(0)
+        setFinishNode(9999)
+        setExecutionTime(0)
+    }
     return (
         <div className={styles['main-container']}>
-            <h1>Pathfinding Visualizer</h1>
+            <div className={styles['main-header']}>Поиск пути</div>
             <div className={styles['main-btns-container']}>
-                <button onClick={findPath}>
-                    Построить маршрут
-                </button>
+                <button onClick={findPath}>Построить маршрут</button>
                 <button
                     className={`${startSeting && styles.active}`}
                     onClick={setStart}
@@ -180,6 +190,7 @@ const PathfindingApp = () => {
                 >
                     Поставить финиш
                 </button>
+                <button onClick={clearfield}>Очистить поле</button>
             </div>
 
             <div className={styles['grid-container']}>
@@ -191,14 +202,25 @@ const PathfindingApp = () => {
                                 el.isWall && styles.wall
                             } ${el.isStart && styles.start} ${
                                 el.isFinish && styles.finish
-                            } ${el.isVisited && !el.isFinish && styles.visited}`}
+                            } ${
+                                el.isVisited && !el.isFinish && styles.visited
+                            }`}
                             onClick={() => toggleWall(index)}
                         ></div>
                     )
                 })}
             </div>
 
-            <div>Время выполнения: {executionTime}ms</div>
+            <Modal active={resultModalActive} setActive={setResultModalActive} width={20}>
+                <div className={styles['modal-content-res']}>
+                    Время выполнения: {executionTime.toFixed(2)}ms
+                </div>
+            </Modal>
+            <Modal active={noPathtModalActive} setActive={setNoPathModalActive} width={20}>
+                <div className={styles['modal-content-res']}>
+                    Ошибка: невозможно достигнуть конечной точки!
+                </div>
+            </Modal>
         </div>
     )
 }
