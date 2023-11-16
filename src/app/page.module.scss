@@ -61,3 +61,24 @@
         }
     }
 }
+
+@media screen and (max-width: 390px) {
+    .main-container {
+        .main-header {
+            font-size: 45px;
+        }
+
+        .main-btns-container {
+            margin: 15px 0px;
+            button {
+                width: 23%;
+                font-size: 13px;
+            }
+        }
+
+        .colors-container {
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+    }
+}
