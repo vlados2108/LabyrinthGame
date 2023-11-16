@@ -28,7 +28,7 @@
         }
     }
 
-    .colors-container{
+    .colors-container {
         align-self: center;
         display: flex;
         flex-direction: row;
@@ -39,5 +39,25 @@
     .modal-content-res {
         align-self: center;
         font-size: 30px;
+    }
+}
+
+@media screen and (max-width: 630px) {
+    .main-container {
+        .main-header {
+            margin: 10px auto;
+        }
+
+        .main-btns-container {
+            margin: 15px 0px;
+            button {
+                font-size: 14px;
+            }
+        }
+
+        .colors-container {
+            gap: 10px;
+            margin-bottom: 20px;
+        }
     }
 }
