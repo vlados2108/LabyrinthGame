@@ -4,6 +4,21 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    .main-btns-container{
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        button{
+            font-size: 16px;
+            width: 140px;
+            height: 40px;
+            &.active{
+                background-color: #8372D8;
+            }
+        }
+    }
+
     .grid-container {
         width: 80%;
         height: 1300px;
@@ -21,6 +36,9 @@
             }
             &.finish{
                 background-color: #29253A;
+            }
+            &.visited{
+                background-color: green;
             }
         }
     }
