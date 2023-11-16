@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import styles from './Grid.module.scss'
 import { Cell } from '@/app/Shared/types'
