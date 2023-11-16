@@ -1,18 +1,10 @@
 'use client'
 import React, { useState, useEffect } from 'react'
 import Modal from './Components/Modal'
+import ColorCell from './Components/ColorCell'
+import { Cell } from './Shared/types'
 import styles from './page.module.scss'
-
-type Cell = {
-    row: number
-    col: number
-    isStart: boolean
-    isFinish: boolean
-    isWall: boolean
-    distance: number
-    isVisited: boolean
-    previousNode: Cell | null
-}
+import Grid from './Components/Grid'
 
 const ROWS = 100
 const COLS = 100
@@ -192,31 +184,28 @@ const PathfindingApp = () => {
                 </button>
                 <button onClick={clearfield}>Очистить поле</button>
             </div>
-
-            <div className={styles['grid-container']}>
-                {grid.map((el, index) => {
-                    return (
-                        <div
-                            key={index}
-                            className={`${styles['grid-cell']} ${
-                                el.isWall && styles.wall
-                            } ${el.isStart && styles.start} ${
-                                el.isFinish && styles.finish
-                            } ${
-                                el.isVisited && !el.isFinish && styles.visited
-                            }`}
-                            onClick={() => toggleWall(index)}
-                        ></div>
-                    )
-                })}
+            <div className={styles['colors-container']}>
+                <ColorCell color="#401bf7;" cellName="Старт" />
+                <ColorCell color="#29253a" cellName="Финиш" />
+                <ColorCell color="red" cellName="Препятсвие" />
+                <ColorCell color="green" cellName="Путь" />
             </div>
+            <Grid gridArray={grid} toggleWall={toggleWall} />
 
-            <Modal active={resultModalActive} setActive={setResultModalActive} width={20}>
+            <Modal
+                active={resultModalActive}
+                setActive={setResultModalActive}
+                width={20}
+            >
                 <div className={styles['modal-content-res']}>
                     Время выполнения: {executionTime.toFixed(2)}ms
                 </div>
             </Modal>
-            <Modal active={noPathtModalActive} setActive={setNoPathModalActive} width={20}>
+            <Modal
+                active={noPathtModalActive}
+                setActive={setNoPathModalActive}
+                width={20}
+            >
                 <div className={styles['modal-content-res']}>
                     Ошибка: невозможно достигнуть конечной точки!
                 </div>
